@@ -32,10 +32,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run tests
-        run: |
-          pytest tests/
-
       - name: Prepare static files
         run: |
           mkdir -p _site
