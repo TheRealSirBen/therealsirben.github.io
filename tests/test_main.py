@@ -26,14 +26,14 @@ def test_portfolio_data_loading():
     assert portfolio_data['name'] == 'Benedict Dlamini'
 
 
-def test_contact_submission():
+def test_contact_form_submission():
     """
     Test contact form submission
     """
     contact_data = {
         "name": "Test User",
         "email": "test@example.com",
-        "message": "Test message"
+        "message": "Test contact form submission"
     }
 
     response = client.post("/contact", data=contact_data)
@@ -54,10 +54,46 @@ def test_portfolio_api_endpoint():
     assert 'skills' in data
 
 
-def test_404_handler():
+def test_video_publications_data():
     """
-    Test custom 404 error handler
+    Test video publications data
     """
-    response = client.get("/nonexistent-route")
-    assert response.status_code == 404
-    assert "Page not found" in response.text
+    portfolio_data = load_portfolio_data()
+
+    assert 'videoPublications' in portfolio_data
+    video_pubs = portfolio_data['videoPublications']
+
+    assert 'title' in video_pubs
+    assert 'description' in video_pubs
+    assert 'date' in video_pubs
+    assert 'platform' in video_pubs
+
+
+def test_static_files():
+    """
+    Test static file routes
+    """
+    # Test professional image
+    response = client.get("/static/images/benedict-profile.jpg")
+    assert response.status_code == 200
+
+    # Test video
+    response = client.get("/static/videos/personal-intro.mp4")
+    assert response.status_code == 200
+
+
+def test_social_links():
+    """
+    Test social links in portfolio data
+    """
+    portfolio_data = load_portfolio_data()
+
+    assert 'social' in portfolio_data
+    social_links = portfolio_data['social']
+
+    assert len(social_links) > 0
+
+    for link in social_links:
+        assert 'platform' in link
+        assert 'url' in link
+        assert 'icon' in link

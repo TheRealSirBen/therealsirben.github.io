@@ -72,10 +72,6 @@ desktop.ini
 *~
 .~*
 
-# Package Management
-pip-log.txt
-pip-delete-this-directory.txt
-
 # Testing and Coverage
 htmlcov/
 .tox/
@@ -87,14 +83,24 @@ coverage.xml
 *.cover
 .hypothesis/
 
-# Type Checking
+# Pytest
+tests/
+.pytest_cache/
+pytest.ini
+*.pytest_cache
+.pytest_cache
+
+# Mypy
 .mypy_cache/
 .dmypy.json
 dmypy.json
 
-# Pytest
-.pytest_cache/
-pytest.ini
+# Type Checking
+*.mypy_cache
+
+# Package Management
+pip-log.txt
+pip-delete-this-directory.txt
 
 # Environment and Secrets
 *.env
