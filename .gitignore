@@ -84,7 +84,6 @@ coverage.xml
 .hypothesis/
 
 # Ignore test artifacts and temporary test files
-.pytest_cache/
 pytest.ini
 *.pytest_cache
 .pytest_cache
