@@ -83,12 +83,14 @@ coverage.xml
 *.cover
 .hypothesis/
 
-# Pytest
-tests/
+# Ignore test artifacts and temporary test files
 .pytest_cache/
 pytest.ini
 *.pytest_cache
 .pytest_cache
+tests/**/*.pyc
+tests/.coverage
+tests/htmlcov/
 
 # Mypy
 .mypy_cache/
