@@ -1,0 +1,127 @@
+name: Benedict Dlamini (SirBen)
+tagline: Data Engineering Strategy | Business Intelligence Developer | AI & ML
+copyright: © 2025 Benedict Dlamini. Driving Business Innovation Through Data Science.
+
+# Path to your professional headshot image
+professionalImage: images/benedict-dlamini.png
+
+# Video Publications Section
+videoPublications:
+  title: "Data Science in Financial Services: Transforming Business Strategies"
+  description: >
+    In this comprehensive video, I break down the latest trends in data science 
+    and machine learning, focusing on how financial institutions can leverage 
+    advanced analytics to drive strategic decision-making and improve operational efficiency.
+  date: "January 15, 2025"
+  platform: "Data Science Conference 2025"
+  link: "https://example.com/video-publication"
+
+# Strategic Value Proposition (Optional, if your template expects it)
+strategic_value_proposition:
+  headline: Benedict Dlamini
+  immediate_credibility:
+    - "Delivered 15+ data-driven solutions across financial services"
+    - "Generated $2M+ in strategic insights for financial institutions"
+    - "80%+ accuracy in predictive machine learning models"
+
+projects:
+  - title: Business Intelligence Alerts System
+    description: A comprehensive alerting system that delivers 15 analytics alerts daily to 1,500 users via SMS and WhatsApp. Developed a robust notification platform that brings real-time business insights directly to stakeholders.
+    technologies:
+      - Python
+      - SMS Gateway
+      - WhatsApp API
+    icon: code
+    situation: "Financial institution struggling with fragmented data communication"
+    problem: "Inefficient data dissemination and lack of real-time insights"
+    action:
+      - Designed and implemented a comprehensive analytics alert system
+      - Integrated SMS and WhatsApp messaging platforms
+      - Developed automated reporting mechanism
+    results:
+      - "Delivered 15 analytics alerts daily to 1,500 users"
+      - "Reduced reporting turnaround time from weeks to hours"
+      - "Increased stakeholder engagement by 40%"
+
+  - title: KYC Optical Character Recognition Web App
+    description: An advanced web application utilizing object detection and OCR technologies to streamline Know Your Customer (KYC) compliance processes. Capable of reviewing 150 national IDs per day with high accuracy and efficiency.
+    technologies:
+      - Machine Learning
+      - Computer Vision
+      - Web Development
+    icon: tool
+    situation: "Manual document verification process in banking"
+    problem: "Time-consuming and error-prone KYC document processing"
+    action:
+      - Developed advanced OCR solution using machine learning
+      - Implemented object detection for document verification
+      - Created web application for seamless document processing
+    results:
+      - "Reduced document review time by 75%"
+      - "Processed 150 national IDs daily with high accuracy"
+      - "Improved compliance efficiency"
+
+  - title: Customer Prediction Machine Learning Model
+    description: Developed a machine learning model with over 80% accuracy for identifying potential premium account upgrade candidates. The model provides strategic insights for targeted customer engagement and service optimization.
+    technologies:
+      - Scikit-learn
+      - TensorFlow
+      - Data Analysis
+    icon: trending-up
+    situation: "Limited insights into customer potential for premium services"
+    problem: "Difficulty in identifying high-potential customers for account upgrades"
+    action:
+      - Developed machine learning model for customer segmentation
+      - Implemented predictive analytics for account upgrade potential
+      - Created strategic targeting mechanism
+    results:
+      - "80%+ accuracy in predicting upgrade candidates"
+      - "Supported bank's client acquisition strategy"
+      - "Enabled targeted marketing efforts"
+
+skills:
+  "Data Engineering":
+    - Apache Airflow
+    - Apache NiFi
+    - Talend Open Studio
+    - FastAPI
+    - Pandas
+
+  "Data Analytics":
+    - PowerBI
+    - Scikit-learn
+    - TensorFlow
+    - PyTorch
+    - Keras
+
+  "Project Management":
+    - Agile
+    - Scrum
+    - Microsoft Planner
+    - Microsoft PowerPoint
+
+social:
+  - platform: GitHub
+    url: https://github.com/TheRealSirBen
+    icon: github
+
+  - platform: LinkedIn
+    url: https://www.linkedin.com/in/benedict-dlamini
+    icon: linkedin
+
+  - platform: Email
+    url: mailto:thabisaben@gmail.com
+    icon: mail
+
+# Thought Leadership
+thought_leadership:
+  certifications:
+    - MSc. Big Data and Analytics
+    - Executive Certificate in Project Management
+  publications:
+    - "Data monetization in a digitally fast-paced environment"
+    - "AI techniques for business optimization"
+
+# Placeholder for video and image paths
+personalVideoSrc: videos/invideo-ai-personal-intro.mp4
+personalVideoThumbnail: images/video-thumbnail.png

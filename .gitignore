@@ -1,0 +1,124 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual Environment
+venv/
+.venv/
+env/
+ENV/
+.env
+.env.local
+.env.*.local
+
+# Project Build and Distribution
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# IDEs and Editors
+.vscode/
+*.code-workspace
+.history/
+
+.idea/
+*.iml
+*.iws
+*.ipr
+.idea_modules/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb
+
+# Logging
+*.log
+logs/
+log/
+
+# Databases
+*.db
+*.sqlite3
+*.sqlite
+
+# Local Development
+config.local.py
+local_settings.py
+
+# Operating Systems
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temporary Files
+*.swp
+*.swo
+*~
+.~*
+
+# Package Management
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Testing and Coverage
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# Type Checking
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pytest
+.pytest_cache/
+pytest.ini
+
+# Environment and Secrets
+*.env
+.secrets
+secrets.yml
+
+# Frontend (if applicable)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Deployment and Containers
+.docker/
+docker-compose.override.yml
+*.dockerfile
+
+# Backup and Temp
+*.bak
+*.backup
+*~
+*.tmp
+
+# Specific to FastAPI/Flask projects
+static/videos/*
+static/images/*
+!static/videos/.gitkeep
+!static/images/.gitkeep
