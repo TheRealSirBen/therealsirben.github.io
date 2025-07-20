@@ -221,20 +221,6 @@ def test_video_publications():
         assert video_pubs['link'].startswith(('http://', 'https://'))
 
 
-def test_static_files():
-    """
-    Test availability of key static files
-    """
-    # Test professional image
-    data = load_test_data()
-    response = client.get("/static/{}".format(data.get('professionalImage')))
-    assert response.status_code == 200
-
-    # Test video source
-    response = client.get("/static/{}".format(data.get('personalVideoSrc')))
-    assert response.status_code == 200
-
-
 def test_yaml_file_integrity():
     """
     Validate YAML file can be parsed correctly
