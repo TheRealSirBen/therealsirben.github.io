@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: Deploy to GitHub Pages
 
 on:
   push:
@@ -7,16 +7,24 @@ on:
     branches: [ "master" ]
   workflow_dispatch:
 
-env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
 
 jobs:
   test:
     name: Run Tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -29,63 +37,17 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run tests
+        env:
+          PYTHONPATH: .
         run: |
           pytest tests/
 
-  build-and-push-docker:
-    name: Build and Push Docker Image
+  build:
+    name: Generate Static Site
     needs: test
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-      id-token: write
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Log in to GitHub Container Registry
-        uses: docker/login-action@v3
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Extract metadata for Docker
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          tags: |
-            type=ref,event=branch
-            type=ref,event=pr
-            type=sha
-
-      - name: Build and Push Docker Image
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-
-  pages-deployment:
-    name: Deploy Static Site to GitHub Pages
-    needs: test
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
-
-    steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Set up Python
@@ -97,17 +59,19 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+          pip install jinja2 pyyaml
 
-      - name: Prepare Static Files
+      - name: Create Placeholder Static Files
         run: |
-          mkdir -p _site
-          # Copy static content
-          cp -r static/ _site/static/
-          cp -r templates/ _site/templates/
-          cp -r data/ _site/data/
-          
-          # Create index.html if needed
-          cp templates/index.html _site/index.html
+          mkdir -p static/images static/videos static/css static/js static/documents
+          touch static/images/benedict-dlamini.png
+          touch static/videos/invideo-ai-personal-intro.mp4
+          touch static/css/styles.css
+          touch static/js/app.js
+
+      - name: Generate Static Site
+        run: |
+          python generate_static_site.py
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -117,6 +81,15 @@ jobs:
         with:
           path: '_site'
 
+  deploy:
+    name: Deploy to GitHub Pages
+    if: github.ref == 'refs/heads/master'
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

@@ -1,0 +1,58 @@
+# Site Settings
+title: Benedict Dlamini Portfolio
+description: Data Strategist | Machine Learning Enthusiast | Transforming Business Challenges with Advanced Analytics
+author: Benedict Dlamini
+
+# GitHub Pages Configuration
+remote_theme: pages-themes/minimal@v0.2.0
+plugins:
+  - jekyll-remote-theme
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+# SEO and Sharing Settings
+url: "https://thereasirsben.github.io"
+baseurl: ""
+
+# Social Media and Contact
+social:
+  name: Benedict Dlamini
+  links:
+    - https://www.linkedin.com/in/benedict-dlamini
+    - https://github.com/TheRealSirBen
+
+# Build Settings
+markdown: kramdown
+permalink: /:title/
+
+# Exclude from processing
+exclude:
+  - Dockerfile
+  - docker-compose.yml
+  - README.md
+  - requirements.txt
+  - venv/
+  - .github/
+  - tests/
+  - main.py
+  - generate_static_site.py
+
+# Default Settings
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: default
+
+# Optimization Settings
+compress_html:
+  clippings: all
+  comments: all
+  endings: all
+  startings: [ html, head, body ]
+
+# Analytics (Optional)
+# google_analytics: UA-XXXXXXXX-X
+
+# Miscellaneous
+show_downloads: false
