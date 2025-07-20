@@ -2,7 +2,10 @@ import os
 import pytest
 from fastapi.testclient import TestClient
 import yaml
+import sys
 
+# Add project root to a Python path
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 # Import the main application and data loading function
 from main import app, load_portfolio_data
 
