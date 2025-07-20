@@ -1,4 +1,4 @@
-from __init__ import BASE_DIR, logger
+from contextlib import asynccontextmanager
 from os.path import join, exists
 from fastapi import FastAPI, Request, Form
 from fastapi.responses import HTMLResponse, FileResponse
@@ -7,21 +7,38 @@ from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
 from yaml import safe_load
 
-# Create FastAPI application
+from __init__ import BASE_DIR, logger
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """
+    Lifespan context manager to replace startup event
+    """
+    # Startup logic
+    logger.info("Portfolio application starting up!")
+    yield
+    # Optional cleanup logic
+
+
+# Create FastAPI application with lifespan
 app = FastAPI(
     title="Benedict Dlamini Portfolio",
     description="Personal portfolio showcasing projects and skills",
-    version="1.0.0"
+    version="1.0.0",
+    lifespan=lifespan
 )
 
 # Configure static files and templates
-
 app.mount("/static", StaticFiles(directory=join(BASE_DIR, "static")), name="static")
 templates = Jinja2Templates(directory=join(BASE_DIR, "templates"))
 
 
 @app.get("/portfolio.yaml")
 async def serve_portfolio_yaml():
+    """
+    Serve portfolio YAML file
+    """
     yaml_path = join(BASE_DIR, 'data', 'portfolio.yaml')
     return FileResponse(yaml_path, media_type='text/yaml')
 
@@ -71,11 +88,9 @@ async def index(request: Request):
     """
     portfolio_data = load_portfolio_data()
     return templates.TemplateResponse(
+        request,  # Pass request as the first argument
         "index.html",
-        {
-            "request": request,
-            "data": portfolio_data
-        }
+        {"data": portfolio_data}
     )
 
 
@@ -125,7 +140,6 @@ async def download_resume():
     return {"error": "Resume not found"}
 
 
-# Optional: API endpoint to get portfolio data
 @app.get("/api/portfolio")
 async def get_portfolio_data():
     """
@@ -137,25 +151,15 @@ async def get_portfolio_data():
     return load_portfolio_data()
 
 
-# Startup event (optional)
-@app.on_event("startup")
-async def startup_event():
-    """
-    Perform startup tasks
-    """
-    logger.info("Portfolio application starting up!")
-
-
-# Error handling
 @app.exception_handler(404)
 async def not_found_handler(request: Request, exc):
     """
     Custom 404 error handler
     """
     return templates.TemplateResponse(
+        request,  # Pass request as the first argument
         "error.html",
         {
-            "request": request,
             "error_message": "Page not found"
         },
         status_code=404
