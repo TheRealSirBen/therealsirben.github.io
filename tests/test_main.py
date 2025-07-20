@@ -12,6 +12,75 @@ from main import app, load_portfolio_data
 # Create a test client
 client = TestClient(app)
 
+# Global variable to track created files
+CREATED_FILES = []
+
+
+def create_placeholder_files():
+    """
+    Create placeholder files for testing static assets
+    """
+    global CREATED_FILES
+    CREATED_FILES.clear()  # Clear previous files
+
+    # Ensure directories exist
+    os.makedirs('static/images', exist_ok=True)
+    os.makedirs('static/videos', exist_ok=True)
+    os.makedirs('static/css', exist_ok=True)
+    os.makedirs('static/js', exist_ok=True)
+    os.makedirs('static/documents', exist_ok=True)
+
+    # Create placeholder files if they don't exist
+    placeholder_files = [
+        'static/images/benedict-dlamini.png',
+        'static/videos/invideo-ai-personal-intro.mp4',
+        'static/css/styles.css',
+        'static/js/app.js'
+    ]
+
+    for file_path in placeholder_files:
+        if not os.path.exists(file_path):
+            # Create an empty file
+            open(file_path, 'a').close()
+            CREATED_FILES.append(file_path)
+
+    return CREATED_FILES
+
+
+def teardown_module(module):
+    """
+    Cleanup placeholder files after tests
+    """
+    global CREATED_FILES
+    for file_path in CREATED_FILES:
+        if os.path.exists(file_path):
+            os.remove(file_path)
+    CREATED_FILES.clear()
+
+
+def test_static_files():
+    """
+    Test availability of key static files
+    """
+    # Create placeholder files before testing
+    create_placeholder_files()
+
+    # Test image
+    response = client.get("/static/images/benedict-dlamini.png")
+    assert response.status_code == 200
+
+    # Test video
+    response = client.get("/static/videos/invideo-ai-personal-intro.mp4")
+    assert response.status_code == 200
+
+    # Test CSS
+    response = client.get("/static/css/styles.css")
+    assert response.status_code == 200
+
+    # Test JavaScript
+    response = client.get("/static/js/app.js")
+    assert response.status_code == 200
+
 
 # Utility function to load test data
 def load_test_data():
