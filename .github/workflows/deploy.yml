@@ -31,6 +31,14 @@ jobs:
         with:
           python-version: '3.10'
 
+      - name: Create Placeholder Static Files
+        run: |
+          mkdir -p static/images static/videos static/css static/js static/documents
+          touch static/images/benedict-dlamini.png
+          touch static/videos/invideo-ai-personal-intro.mp4
+          touch static/css/styles.css
+          touch static/js/app.js
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip

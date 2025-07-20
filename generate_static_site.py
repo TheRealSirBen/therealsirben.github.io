@@ -1,8 +1,8 @@
+from __init__ import logger
 import os
 import shutil
 import yaml
 from jinja2 import Environment, FileSystemLoader
-from __init__ import logger
 
 
 def load_portfolio_data():
@@ -18,7 +18,7 @@ def load_portfolio_data():
         return {}
 
 
-def generate_site():
+def generate_static_site():
     # Create output directory
     output_dir = '_site'
     os.makedirs(output_dir, exist_ok=True)
@@ -53,7 +53,7 @@ def generate_site():
                 else:
                     shutil.copy2(s, d)
 
-    # Create 404.html (optional)
+    # Create 404.html
     with open(os.path.join(output_dir, '404.html'), 'w') as f:
         f.write("""
         <!DOCTYPE html>
@@ -61,17 +61,31 @@ def generate_site():
         <head>
             <meta charset="UTF-8">
             <title>Page Not Found</title>
+            <link rel="stylesheet" href="static/css/styles.css">
         </head>
         <body>
-            <h1>404 - Page Not Found</h1>
-            <p>The page you are looking for does not exist.</p>
-            <a href="/">Return to Home</a>
+            <div class="error-container">
+                <h1>404 - Page Not Found</h1>
+                <p>The page you are looking for does not exist.</p>
+                <a href="/" class="btn">Return to Home</a>
+            </div>
         </body>
         </html>
         """)
+
+    # Copy external library scripts
+    external_libs = [
+        'https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js',
+        'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js',
+        'https://unpkg.com/feather-icons'
+    ]
+
+    # Create a directory for external libs
+    libs_dir = os.path.join(output_dir, 'static', 'libs')
+    os.makedirs(libs_dir, exist_ok=True)
 
     logger.info("Static site generated successfully in '_site' directory")
 
 
 if __name__ == '__main__':
-    generate_site()
+    generate_static_site()
