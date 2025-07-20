@@ -2,9 +2,9 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "main", "master" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "main", "master" ]
   workflow_dispatch:
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
@@ -31,13 +31,26 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Create Placeholder Static Files
+      - name: Create necessary directories
         run: |
           mkdir -p static/images static/videos static/css static/js static/documents
+          mkdir -p templates data
+
+      - name: Create placeholder static files
+        run: |
+          # Create placeholder files if they don't exist
           touch static/images/benedict-dlamini.png
           touch static/videos/invideo-ai-personal-intro.mp4
-          touch static/css/styles.css
-          touch static/js/app.js
+          
+          # Create minimal CSS if it doesn't exist
+          if [ ! -f static/css/styles.css ]; then
+            echo "/* Placeholder CSS */" > static/css/styles.css
+          fi
+          
+          # Create minimal JS if it doesn't exist
+          if [ ! -f static/js/app.js ]; then
+            echo "// Placeholder JS" > static/js/app.js
+          fi
 
       - name: Install dependencies
         run: |
@@ -48,7 +61,7 @@ jobs:
         env:
           PYTHONPATH: .
         run: |
-          pytest tests/
+          pytest tests/ -v
 
   build:
     name: Generate Static Site
@@ -67,19 +80,56 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install jinja2 pyyaml
 
-      - name: Create Placeholder Static Files
+      - name: Create necessary directories
         run: |
           mkdir -p static/images static/videos static/css static/js static/documents
-          touch static/images/benedict-dlamini.png
+          mkdir -p templates data
+
+      - name: Create placeholder static files
+        run: |
+          # Create placeholder image (1x1 pixel PNG)
+          echo "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==" | base64 -d > static/images/benedict-dlamini.png
+          
+          # Create placeholder video file
           touch static/videos/invideo-ai-personal-intro.mp4
-          touch static/css/styles.css
-          touch static/js/app.js
+          
+          # Ensure CSS and JS files exist
+          if [ ! -f static/css/styles.css ]; then
+            echo "/* Placeholder CSS */" > static/css/styles.css
+          fi
+          
+          if [ ! -f static/js/app.js ]; then
+            echo "// Placeholder JS" > static/js/app.js
+          fi
+
+      - name: Verify files exist
+        run: |
+          echo "Checking required files..."
+          ls -la static/
+          ls -la static/css/
+          ls -la static/js/
+          ls -la static/images/
+          ls -la data/
+          ls -la templates/
 
       - name: Generate Static Site
         run: |
+          echo "Starting static site generation..."
           python generate_static_site.py
+          echo "Static site generation completed"
+
+      - name: Verify generated site
+        run: |
+          echo "Checking generated site..."
+          ls -la _site/
+          if [ -f _site/index.html ]; then
+            echo "✅ index.html generated successfully"
+            head -20 _site/index.html
+          else
+            echo "❌ index.html not found!"
+            exit 1
+          fi
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -91,7 +141,7 @@ jobs:
 
   deploy:
     name: Deploy to GitHub Pages
-    if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

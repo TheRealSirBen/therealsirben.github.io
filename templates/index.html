@@ -5,6 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ data.name }} - Data Strategy Consultant</title>
 
+    <!-- Meta tags for SEO -->
+    <meta name="description" content="{{ data.tagline }}">
+    <meta name="keywords" content="data strategy, machine learning, business intelligence, analytics">
+    <meta name="author" content="{{ data.name }}">
+
+    <!-- Open Graph meta tags -->
+    <meta property="og:title" content="{{ data.name }} - Portfolio">
+    <meta property="og:description" content="{{ data.tagline }}">
+    <meta property="og:type" content="website">
+
     <!-- External Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
@@ -32,16 +42,22 @@
         <div class="container">
             <div class="hero-content">
                 <div class="hero-image">
+                    {% if data.professionalImage %}
                     <img src="static/{{ data.professionalImage }}"
                          alt="{{ data.name }}"
                          class="profile-image">
+                    {% else %}
+                    <div class="placeholder-image">
+                        <span>{{ data.name[:2] }}</span>
+                    </div>
+                    {% endif %}
                 </div>
                 <div class="hero-text">
                     <h1 class="headline">
                         {% if data.strategic_value_proposition and data.strategic_value_proposition.headline %}
                         {{ data.strategic_value_proposition.headline }}
                         {% else %}
-                        {{ data.tagline }}
+                        {{ data.name }}
                         {% endif %}
                     </h1>
                     <h2 class="tagline">{{ data.tagline }}</h2>
@@ -58,16 +74,19 @@
         </div>
     </section>
 
+    {% if data.videoPublications %}
     <section id="video-publications" class="video-publications-section">
         <div class="container">
             <h2 class="section-title">Latest Video Publication</h2>
             <div class="video-publications-content">
+                {% if data.personalVideoSrc %}
                 <div class="video-container">
                     <video controls>
                         <source src="static/{{ data.personalVideoSrc }}" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
                 </div>
+                {% endif %}
                 <div class="video-description">
                     <h3>{{ data.videoPublications.title }}</h3>
                     <p>{{ data.videoPublications.description }}</p>
@@ -86,6 +105,7 @@
             </div>
         </div>
     </section>
+    {% endif %}
 
     <section id="case-studies" class="case-studies-section">
         <div class="container">
@@ -171,7 +191,7 @@
             <div class="contact-content">
                 <div class="contact-info">
                     <h3>Ready to Transform Your Data Strategy?</h3>
-                    <p>Schedule a consultation to discuss how we can drive your business forward.</p>
+                    <p>Get in touch to discuss how we can drive your business forward.</p>
                     <div class="social-links">
                         {% for social in data.social %}
                         <a href="{{ social.url }}" target="_blank" aria-label="{{ social.platform }}">
@@ -180,12 +200,13 @@
                         {% endfor %}
                     </div>
                 </div>
-                <form class="contact-form" id="contact-form">
-                    <input type="text" name="name" placeholder="Your Name" required>
-                    <input type="email" name="email" placeholder="Your Email" required>
-                    <textarea name="message" placeholder="Tell me about your project" required></textarea>
-                    <button type="submit">Schedule Strategy Session</button>
-                </form>
+                <div class="contact-form">
+                    <p><strong>Contact Information:</strong></p>
+                    <p>Email: <a href="mailto:thabisaben@gmail.com">thabisaben@gmail.com</a></p>
+                    <p>LinkedIn: <a href="https://www.linkedin.com/in/benedict-dlamini" target="_blank">Benedict
+                        Dlamini</a></p>
+                    <p>GitHub: <a href="https://github.com/TheRealSirBen" target="_blank">TheRealSirBen</a></p>
+                </div>
             </div>
         </div>
     </section>
@@ -208,6 +229,16 @@
         {% endif %}
     </div>
 </footer>
+
+<!-- Initialize Feather Icons -->
+<script>
+    // Initialize feather icons when DOM is loaded
+    document.addEventListener('DOMContentLoaded', function () {
+        if (typeof feather !== 'undefined') {
+            feather.replace();
+        }
+    });
+</script>
 
 <!-- Main Application Script -->
 <script src="static/js/app.js"></script>

@@ -61,8 +61,10 @@ log/
 config.local.py
 local_settings.py
 __dev_utils__.py
-/_site
 
+# Generated Static Site Directory - DO NOT COMMIT
+_site/
+_site/*
 
 # Operating Systems
 .DS_Store
@@ -132,3 +134,15 @@ static/videos/*
 static/images/*
 !static/videos/.gitkeep
 !static/images/.gitkeep
+
+# GitHub Pages and Jekyll
+.sass-cache/
+.jekyll-cache/
+.jekyll-metadata
+_site/
+.bundle/
+vendor/
+
+# Build artifacts
+*.tar.gz
+*.zip
