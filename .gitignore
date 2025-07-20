@@ -60,6 +60,7 @@ log/
 # Local Development
 config.local.py
 local_settings.py
+__dev_utils__.py
 
 # Operating Systems
 .DS_Store
